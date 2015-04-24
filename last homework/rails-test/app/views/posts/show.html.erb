@@ -1,0 +1,30 @@
+<h3><%= @post.title %></h3>
+
+<div>
+  <%= @post.author.try(:email) or "Anonymous" %>
+</div>
+
+<p>
+  <%= @post.body %>
+</p>
+
+<div class="pull-right">
+  <%= action_links %>
+</div>
+
+<h3>Reply (<%= @post.replies_count %>):</h3>
+<ul>
+  <% @pages.each do |reply| %>
+  <li>
+    <strong><%= reply.author.try(:email) or "Anonymous" %>:</strong>
+    <%= reply.body %>
+  </li>
+  <% end -%>
+</ul>
+
+<%= paginate @pages %>
+
+<%= form_for Reply.new, url: reply_post_path do |f| %>
+  <%= f.text_area :body %>
+  <%= f.submit %>
+<% end -%>
