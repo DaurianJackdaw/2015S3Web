@@ -1,0 +1,38 @@
+<h3><%= @post.title %></h3>
+
+<div>
+  <% if @post.body != nil %>
+    <%= @post.body.html_safe %>
+  <% end -%>
+</div>
+
+<div>
+  <%= @post.author.email %> 发表于
+  <%= @post.created_at.getlocal.strftime('%Y/%-m/%-d') %> 阅读
+  (<%= @post.clicks %>)
+</div>
+
+<div class="pull-right">
+  <%= action_links %>
+</div>
+
+<div>
+  回复(<%= @post.replies_count %>)
+</div>
+
+<ul>
+  <% @pages.each do |reply| %>
+  <li>
+    <strong><%= reply.author.try(:email) or "Anonymous" %></strong> 回复于
+    <%= reply.created_at.getlocal.strftime('%Y-%-m-%-d %k:%M') %>:
+    <%= reply.body %>
+  </li>
+  <% end -%>
+</ul>
+
+<%= paginate @pages %>
+
+<%= form_for Reply.new, url: reply_post_path do |f| %>
+  <%= f.text_area :body, class: "form-control", rows: 3 %>
+  <%= f.submit '回复', class: "btn btn-primary" %>
+<% end -%>

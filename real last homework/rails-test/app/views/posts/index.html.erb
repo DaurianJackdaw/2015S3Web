@@ -1,0 +1,36 @@
+<div class="row">
+  <div class="col-md-3">
+    <h3>为什么这个作业很坑：</h3>
+    <h4>
+      1 我不会写代码<br>
+      2 我只会改代码<br>
+      3 然而队友坑了<br>
+      4 所以我就坑了
+    </h4>
+  </div>
+  <div class="col-md-9">
+    <% @pages.each do |post| %>
+      <div class="container">
+        <h2><%= link_to post.title, post %></h2>
+        <p><small>发表于 <%= post.created_at.getlocal.strftime('%Y年%-m月%-d日 %k:%M') %></small></p>
+        <% if post.body != nil %>
+          <article><%= post.body.html_safe %></article>
+        <% else %>
+        <% end %>
+        <% if user_signed_in? %>
+          <%= link_to '编辑', edit_post_path(post) %> | 
+          <%= link_to '删除', post, method: :delete, data: { confirm: '你将要删除一篇文章，确定要这样做？' } %>
+          <% throw %>
+        <% end %>
+      </div>
+    <% end %>
+  </div>
+</div>
+<%= paginate @pages %>
+
+<br>
+<div class="container">
+  <% if user_signed_in? %>
+    <%= link_to '写新文章', new_post_path, class: "btn btn-default" %>
+  <% end -%>
+</div>

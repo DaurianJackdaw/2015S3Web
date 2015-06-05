@@ -1,0 +1,25 @@
+<%= form_for(@post) do |form| %>
+  <% if @post.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@post.errors.count, "error") %> prohibited this post from being saved:</h2>
+
+      <ul>
+      <% @post.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= form.label :title %><br>
+    <%= form.text_field :title %>
+  </div>
+  <div class="field">
+    <%= form.label :body %><br>
+    <%= form.cktext_area :body, :ckeditor => {:language => 'zh-cn'} %>
+  </div>
+  <div class="actions">
+    <%= form.submit '发布', class: "btn btn-primary" %>
+  </div>
+<% end %>
